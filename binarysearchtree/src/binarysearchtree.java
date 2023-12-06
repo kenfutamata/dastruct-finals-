@@ -15,15 +15,8 @@ static Scanner input = new Scanner(System.in);
     }
 
     public void inOrderTraversal(){
+        // it is through recursive method
         inOrdertraversal(root);
-    }
-
-    public void preOrderTraversal(){
-        preOrdertraversal(root);
-    }
-
-    public void postOrderTraversal(){
-        postOrdertraversal(root);
     }
 
     private void inOrdertraversal(Node root){
@@ -35,6 +28,11 @@ static Scanner input = new Scanner(System.in);
         }
     }
 
+    public void preOrderTraversal(){
+        // it is through recursive method
+        preOrdertraversal(root);
+    }
+
     private void preOrdertraversal(Node root){
 
         if (root!=null){
@@ -44,6 +42,10 @@ static Scanner input = new Scanner(System.in);
         }
     }
 
+    public void postOrderTraversal(){
+        // it is through recursive method
+        postOrdertraversal(root);
+    }
     private void postOrdertraversal(Node root){
         if (root!=null){
             postOrdertraversal(root.left);
@@ -53,60 +55,64 @@ static Scanner input = new Scanner(System.in);
     }
 
 
-    public void isempty(){
+    public Node isempty(){
         if(root == null){
             System.out.println("BST is empty");
         }else{
             System.out.println("BST is not empty");
         }
+        return root;
 
     }
-    public static boolean flag = false;
-    public void search(Node node, double value){
-        //isEmpty();
-        if(root == null){
-            System.out.println("Tree is empty");
-        }
-        else{
-            if(node.data == value){
-                flag =true;
-                System.out.println("Node is found");
-                return;
-            }
-            else{
-                System.out.println("Node is not found");
-            }
-        }
-        if(flag == false && node.left!=null){
-            search(node.left, value);
-        }
-        if(flag == false && node.right!=null){
-            search(node.right, value);
-        }
+    public boolean search(double value){
+        return searchrecursive(root, value);
+    }
+    public boolean searchrecursive(Node root, double value){
+        //program will identify if a node selected within the binary tree is in the binary tree.
+       if(root == null){
+           return false;
+       }
+        // node successfully found the node within the binary tree
+       else if(root.data == value){
+           return true;
+       }
+       //searching through left subtree
+       else if (root.data > value) {
+           return searchrecursive(root.left, value);
+       }
+       //searching through right subtree
+       return searchrecursive(root.right, value);
     }
 
+    //Insert through recrsive method
     public void insert(double data){
         root = insertrecursive(root, data);
     }
     public Node insertrecursive(Node root, double data){
+        //If the root is still empty
         if(root == null){
             root = new Node(data);
             return root;
         }
+        //If value is lesser than the root, program will bring the value to the left
         if(data<root.data) {
             root.left = insertrecursive(root.left, data);
         }
+        //If value is greater than the root, program will bring the value to the right.
         else if(data>root.data)
             root.right = insertrecursive(root.right, data);
         return root;
     }
 
     public Node delete(Node node, double value){
+        //isEmpty()
       if(node == null)
           return node;
+      //Searching if value is located on the left subtree
       if(value < (double) node.data){
           node.left = delete(root.left, value);
       }
+      //Searching if the value is located on the right subtree
       else if(value > (double)node.data){
           node.right = delete(node.right, value);
       }
@@ -124,6 +130,8 @@ static Scanner input = new Scanner(System.in);
     }
 
     public double inordersuccession(Node node){
+        //program will find a successor if the selected value is going to be deleted. min is
+        // as the minimum or another thing as the part of a succession.
         double min = (double) node.data;
         while(node.left!=null){
             min =(double)node.left.data;
@@ -133,6 +141,7 @@ static Scanner input = new Scanner(System.in);
     }
 
     public int height(Node node){
+        //program will analyze the height of the Binary tree.
         if(node == null){
             return 0;
         }
@@ -148,6 +157,7 @@ static Scanner input = new Scanner(System.in);
     }
 
     public int  numbernodes(Node root) {
+        //Program will identify the number of nodes inputted on the binary tree
         if (root == null) {
             return 0;
         }
@@ -158,12 +168,15 @@ static Scanner input = new Scanner(System.in);
     }
 
     public int getleafcount(){
+        //This is through a recursive method
         return numberleaves(root);
     }
     public int numberleaves(Node node){
+        //if node is empty
         if(node == null){
             return 0;
         }
+        //program will identify the number of leaves on the binary tree.
         if(node.left == null && node.right == null)
             return 1;
         else
@@ -208,7 +221,7 @@ static Scanner input = new Scanner(System.in);
         else if(choose == 2){
             System.out.println("Enter a node to search: ");
             double value = input.nextDouble();
-            search(root, value);
+            System.out.println(search(value));
         }
 
         else if(choose == 3){
